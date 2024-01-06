@@ -75,7 +75,7 @@ func TestBKDelTreeInsert(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abc", "abcd", "ab", "abcef", "abd", "abdef", "xyzijk"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 		if bktree.numNodes != len(words) {
 			t1.Errorf("BKDelTree.Insert(numNodes) = %v, want %v", bktree.numNodes, len(words))
@@ -88,7 +88,7 @@ func TestBKDelTreeInsert(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abc", "abc", "abc", "abc", "abc", "abc", "abc"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 		if bktree.numNodes != 1 {
 			t1.Errorf("BKDelTree.Insert(numNodes) = %v, want %v", bktree.numNodes, 1)
@@ -102,7 +102,7 @@ func TestBKDelTreeInsert(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abc", "abcd", "abce", "xyz", "abc", "abce", "abced"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 		if bktree.numNodes != 5 {
 			t1.Errorf("BKDelTree.Insert(numNodes) = %v, want %v", bktree.numNodes, 5)
@@ -119,7 +119,7 @@ func TestBKDelTreeSearch(t *testing.T) {
 	bktree := NewBKDelTree()
 	words := []string{"abc", "abcd", "ab", "abcef", "abd", "abdef", "xyzijk"}
 	for _, word := range words {
-		bktree.Insert(word)
+		_ = bktree.Insert(word)
 	}
 
 	type args struct {
@@ -179,7 +179,7 @@ func TestBKDelTreeGetParent(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abc", "abcd", "ab", "abcef", "abd", "abdef", "xyzijk"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 		if parent, _ := bktree.GetParent("abcde"); parent != nil {
 			t1.Errorf("BKDelTree.Search() = %v, want %v", parent, nil)
@@ -190,7 +190,7 @@ func TestBKDelTreeGetParent(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abcde", "abcdd", "abcdf", "acbed", "acebd", "cabde", "dadbc", "cdacb", "cadbc", "bacde"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 
 		wantChildParents := map[string]string{
@@ -231,7 +231,7 @@ func TestBKNodeCollectFamily(t *testing.T) {
 	bktree := NewBKDelTree()
 	words := []string{"abcde", "abcdd", "abcdf", "acbed", "acebd", "cabde", "dadbc", "cdacb", "cadbc", "bacde"}
 	for _, word := range words {
-		bktree.Insert(word)
+		_ = bktree.Insert(word)
 	}
 
 	tests := []struct {
@@ -273,7 +273,7 @@ func TestBKDelTreeDelete(t *testing.T) {
 	bktree := NewBKDelTree()
 	words := []string{"abcde", "abcdd", "abcdf", "acbed", "acebd", "cabde", "dadbc", "cdacb", "cadbc", "bacde"}
 	for _, word := range words {
-		bktree.Insert(word)
+		_ = bktree.Insert(word)
 	}
 	t.Run("deleteLeaf", func(t1 *testing.T) {
 		if err := bktree.Delete("abcdf"); err != nil {
@@ -320,7 +320,7 @@ func TestBKDelTree_SPPrintf(t *testing.T) {
 		bktree := NewBKDelTree()
 		words := []string{"abcde", "abcdd", "abcdf", "acbed", "acebd", "cabde", "dadbc", "cdacb", "cadbc", "bacde"}
 		for _, word := range words {
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 		got := bktree.SPPrintf(". ")
 		// count num of lines in got
@@ -336,7 +336,7 @@ func benchmarkBKDelTreeInsertN(n int, b *testing.B) {
 		bktree := NewBKDelTree()
 		for i := 0; i < n; i++ {
 			word := GenerateRandomString(i)
-			bktree.Insert(word)
+			_ = bktree.Insert(word)
 		}
 	}
 }
@@ -360,7 +360,7 @@ func BenchmarkBKDelTreeSearch(b *testing.B) {
 	bktree := NewBKDelTree()
 	for i := 0; i < 1000; i++ {
 		word := GenerateRandomString(i)
-		bktree.Insert(word)
+		_ = bktree.Insert(word)
 	}
 
 	wordsDistance := map[string]int{ // word: distance
@@ -386,7 +386,7 @@ func BenchmarkBKDelTree_Delete(b *testing.B) {
 	bktree := NewBKDelTree()
 	for i := 0; i < 1000; i++ {
 		word := GenerateRandomString(i)
-		bktree.Insert(word)
+		_ = bktree.Insert(word)
 	}
 
 	words := []string{
@@ -401,9 +401,9 @@ func BenchmarkBKDelTree_Delete(b *testing.B) {
 	}
 
 	for _, word := range words {
-		b.Run(fmt.Sprintf("%s", word), func(b1 *testing.B) {
+		b.Run(word, func(b1 *testing.B) {
 			for i := 0; i < b1.N; i++ {
-				bktree.Delete(word)
+				_ = bktree.Delete(word)
 			}
 		})
 	}
