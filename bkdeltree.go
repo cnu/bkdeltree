@@ -148,7 +148,7 @@ func (t *BKDelTree) Delete(word string) error {
 		newTree := NewBKDelTree()
 		allSubNodes := t.root.collectFamily()
 		for _, subNode := range allSubNodes[1:] {
-			newTree.Insert(subNode.word)
+			_ = newTree.Insert(subNode.word)
 		}
 		t.root = newTree.root
 		t.numNodes = newTree.numNodes
@@ -181,7 +181,7 @@ func (n *BKNode) deleteChild(word string, t *BKDelTree) {
 		n.childrenCount--
 		for _, subNode := range allSubNodes[1:] {
 			t.numNodes--
-			t.Insert(subNode.word)
+			_ = t.Insert(subNode.word)
 		}
 	}
 }
